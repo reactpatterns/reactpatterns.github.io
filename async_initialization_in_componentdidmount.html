@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Index</title>
+  <title>React Patterns & Techniques</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="description" content="React patterns & techniques to use in development!">
@@ -9,7 +9,7 @@
   <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-  <div id="container">
+   <div id="container">
     <header>
       <h1>
         <a href="/">React Patterns & Techniques</a>
@@ -19,6 +19,25 @@
     <ul>
       <li><a href="async_initialization_in_componentdidmount.html">Async initialization in componentDidMount()</a></li>
     </ul>
+    <h3>Async initialization in componentDidMount()</h3>
+    <ul>
+      <li>You should avoid async initialization in componentWillMount(), componentWillMount() is called before render() that why setting state in this method will not trigger render() method.</li>
+    </ul>
+    <ul>
+      <li>You should make async calls for component initialization in componentDidMount() instead of componentWillMount().</li>
+    </ul>
+    <pre class="screen">
+function componentDidMount() {
+  axios.get(`api/sms`)
+    .then((result) => {
+      const sms = result.data
+      console.log("COMPONENT WILL Mount messages : ", sms);
+      this.setState({
+        sms: [...sms.content]
+      })
+    })
+}
+    </pre>
   </div>
 </body>
 </html> 
