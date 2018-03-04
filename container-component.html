@@ -1,0 +1,112 @@
+<html>
+<head>
+  <title>Container component | React Patterns & Techniques</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Container component. You should avoid async initialization in componentWillMount()">
+  <meta name="keywords" content="react-patterns, patterns, react, javascript, react-native, reactjs, component, components, front-end, frontend, front-end-development, frontend-web, frontend-webdevelopment, frontend-components, frontend-app, react-app, react-component, react-components, react-techniques, reactjs-patterns">
+  <meta name="Code Facebook" content="bunlong.van@gmail.com">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+   <div id="container">
+    <header>
+      <h1>
+        <a href="/">React Patterns & Techniques</a>
+      </h1>
+    </header>
+    <h3>Table of Contents</h3>
+    <ul>
+      <ul>
+        <li><a href="async-initialization-in-componentdidmount.html">Async initialization in componentDidMount()</a></li>
+        <li><a href="container-component.html">Container component</a></li>
+      </ul>
+    </ul>
+    <h3>Container component</h3>
+    <p>
+      A container does data fetching and then renders its corresponding sub-component.
+    </p>
+    <p>
+      Assume that you have a component that displays comments. You didn’t know about container components. So, you put everything in one place.
+    </p>
+    <pre class="screen">
+const fetchSomeComments = cb =>
+  cb([
+    { author: "Bunlong VAN", body: "Nice to see you here!" },
+    { author: "You", body: "Thanks!" }
+  ]);
+
+class CommentList extends React.Component {
+  this.state = { comments: [] };
+
+  componentDidMount() {
+    fetchSomeComments(comments => this.setState({ comments: comments }));
+  }
+
+  render() {
+    return (
+      &lt;ul&gt;
+        {this.state.comments.map(c => (
+          &lt;li&gt;{c.body}—{c.author}&lt;/&gt;
+        ))}
+      &lt;/ul&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  <CommentList />,
+  document.getElementById("root")
+);
+    </pre>
+    <p>
+      Your component is responsible for both fetching data and presenting it. There’s nothing “wrong” with this but you miss out on a few benefits of React.
+    </p>
+    <p>
+      CommentList can’t be reused unless under the exact same circumstances.
+    </p>
+    <p>
+      Lets pull out data-fetching into a container component.
+    </p>
+    <pre class="screen">
+class CommentListContainer extends React.Component {
+  state = { comments: [] };
+
+  componentDidMount() {
+    fetchSomeComments(comments =>
+      this.setState({ comments: comments }));
+  }
+
+  render() {
+    return <CommentList comments={this.state.comments} />;
+  }
+}
+    </pre>
+    <p>
+      Now, let’s rework CommentList to take comments as a prop.
+    </p>
+    <pre class="screen">
+const CommentList = props =>
+  &lt;ul&gt;
+    {props.comments.map(c => (
+      &lt;li&gt;{c.body}—{c.author}&lt;/li&gt;
+    ))}
+  &lt;/ul&gt;
+    </pre>
+    <p class="caption">
+      What we got:
+    </p>
+    <ul class="caption">
+      <li>
+        Separated our data-fetching and rendering concerns.
+      </li>
+      <li>
+        Made our CommentList component reusable.
+      </li>
+      <li>
+        Given CommentList the ability to set PropTypes.
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

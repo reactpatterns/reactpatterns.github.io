@@ -2,7 +2,7 @@ body {
   background-color: white;
   color: black;
   line-height: 140%;
-  margin-left: 1.3em;
+  margin-left: 1em;
   margin-right: 1em;
   margin-top: 5%;
   text-align: left;
@@ -60,6 +60,10 @@ ul {
   padding-left: 1em;
 }
 
+ul.caption {
+  padding-left: 2.2em;
+}
+
 li {
   padding-left: 0;
 }
@@ -77,6 +81,7 @@ dd {
 }
 
 p.caption {
+  margin-left: 0;
 }
 
 pre {
@@ -191,6 +196,18 @@ code {
   font-size: 85%;
   margin: 0;
   padding: 0.2em 0.4em;
+}
+
+@media (max-width: 575px) { 
+  h1 {
+    line-height: 38px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) { 
+  h1 {
+    line-height: 38px;
+  }
 }
 
 /*https://github.com/bbatsov/ruby-style-guide*/
