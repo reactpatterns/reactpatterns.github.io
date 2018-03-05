@@ -1,9 +1,9 @@
 <html>
 <head>
-  <title>Async initialization in componentDidMount | React Patterns & Techniques</title>
+  <title>Higher Order Component - Props proxy | React Patterns & Techniques</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="description" content="Async initialization in componentDidMount. You should avoid async initialization in componentWillMount()">
+  <meta name="description" content="Higher Order Component - Props proxy. Higher Order components in React follow the important concept of Composition.">
   <meta name="keywords" content="react-patterns, patterns, react, javascript, react-native, reactjs, component, components, front-end, frontend, front-end-development, frontend-web, frontend-webdevelopment, frontend-components, frontend-app, react-app, react-component, react-components, react-techniques, reactjs-patterns">
   <meta name="Code Facebook" content="bunlong.van@gmail.com">
   <link href="css/styles.css" rel="stylesheet">
@@ -27,28 +27,29 @@
         <li><a href="jsx-spread-attributes.html">JSX spread attributes</a></li>
       </ul>
     </ul>
-    <h3>Async initialization in componentDidMount()</h3>
+    <h3>Higher Order Component - Props proxy</h3>
     <p>
-      You should avoid async initialization in <code>componentWillMount()</code>.
+      Higher Order components in React follow the important concept of Composition. In React, Large Components can be composed of smaller components to implement separation of concerns. Any React App can be seen as a composition of Hierarchical Components.
     </p>
     <p>
-      <code>componentWillMount()</code> is called before render() that why setting state in this method will not trigger render() method.
-    </p>
-    <p>
-      You should make async calls for component initialization in <code>componentDidMount()</code> instead of <code>componentWillMount()</code>.
+      Higher Order Component in ReactJS is similar to HOF and can be defined as any function that takes a Component as Argument and returns another Component. The returned component will contain/compose the initial argument passed in the argument to the function.
     </p>
     <pre class="screen">
-function componentDidMount() {
-  axios.get(`api/sms`)
-    .then((result) => {
-      const sms = result.data
-      console.log("COMPONENT WILL Mount messages : ", sms);
-      this.setState({
-        sms: [...sms.content]
-      })
-    })
+export default HOC(ComposedComponent) {
+  return class WrapperComponent extends React.Component {
+    componentDidMount(){
+      this.newProps = transformationFunc(this.props);
+    }
+    
+    render(){
+      &lt;ComposedComponent {...this.props} {...this.newProps} /&gt;
+    }
+  }
 }
     </pre>
+    <p>
+      In the above code, we have created a Function that takes a Component to be composed and returns us a WrapperComponent which includes the ComposedComponent in its render method. The HOC/WrapperComponent can add new props or modify the existing props also. It can also get hooks to the lifecycle methods of the ComposedComponents. The props are passed as it is using the ES6 spread operator.
+    </p>
   </div>
 </body>
-</html> 
+</html>

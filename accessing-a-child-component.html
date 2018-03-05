@@ -1,9 +1,9 @@
 <html>
 <head>
-  <title>Container component | React Patterns & Techniques</title>
+  <title>Accessing a child component | React Patterns & Techniques</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="description" content="Container component. You should avoid async initialization in componentWillMount()">
+  <meta name="description" content="Accessing a child component. Accessing a child component from the parent.">
   <meta name="keywords" content="react-patterns, patterns, react, javascript, react-native, reactjs, component, components, front-end, frontend, front-end-development, frontend-web, frontend-webdevelopment, frontend-components, frontend-app, react-app, react-component, react-components, react-techniques, reactjs-patterns">
   <meta name="Code Facebook" content="bunlong.van@gmail.com">
   <link href="css/styles.css" rel="stylesheet">
@@ -27,51 +27,36 @@
         <li><a href="jsx-spread-attributes.html">JSX spread attributes</a></li>
       </ul>
     </ul>
-    <h3>Container component</h3>
+    <h3>Accessing a child component</h3>
     <p>
-      A container does data fetching and then renders its corresponding sub-component.
+      Accessing a child component from the parent. eg. Autofocus an input (controlled by parent component)
     </p>
     <p>
-      Assume that you have a component that displays comments. You didn’t know about container components. So, you put everything in one place.
+      eg. You have a sign-in form, you want to put the cursor in the user name filed once page render.
+    </p>
+    <p>
+      Let take a look the child component.
     </p>
     <pre class="screen">
-const fetchSomeComments = cb =>
-  cb([
-    { author: "Bunlong VAN", body: "Nice to see you here!" },
-    { author: "You", body: "Thanks!" }
-  ]);
-
-class CommentList extends React.Component {
-  this.state = { comments: [] };
-
-  componentDidMount() {
-    fetchSomeComments(comments => this.setState({ comments: comments }));
+class Input extends Component {
+  focus() {
+    this.el.focus();
   }
-
+  
   render() {
     return (
-      &lt;ul&gt;
-        {this.state.comments.map(c => (
-          &lt;li&gt;{c.body}—{c.author}&lt;/&gt;
-        ))}
-      &lt;/ul&gt;
+      &lt;input
+        ref={el=> { this.el = el; }}
+      /&gt;
     );
   }
 }
-
-ReactDOM.render(
-  <CommentList />,
-  document.getElementById("root")
-);
     </pre>
     <p>
-      Your component is responsible for both fetching data and presenting it. There’s nothing “wrong” with this but you miss out on a few benefits of React.
+      An Input component with a <code>focus()</code> method that focuses the HTML element.
     </p>
     <p>
-      CommentList can’t be reused unless under the exact same circumstances.
-    </p>
-    <p>
-      Lets pull out data-fetching into a container component.
+      In the parent component, we can get a reference to the Input component and call its <code>focus()</code> method.
     </p>
     <pre class="screen">
 class CommentListContainer extends React.Component {
@@ -91,27 +76,26 @@ class CommentListContainer extends React.Component {
       Now, let’s rework CommentList to take comments as a prop.
     </p>
     <pre class="screen">
-const CommentList = props =>
-  &lt;ul&gt;
-    {props.comments.map(c => (
-      &lt;li&gt;{c.body}—{c.author}&lt;/li&gt;
-    ))}
-  &lt;/ul&gt;
+class SignInModal extends Component {
+  componentDidMount() {
+    // Note that when you use ref on a component, it’s a reference to 
+    // the component (not the underlying element), so you have access to its methods.
+    
+    this.InputComponent.focus();
+  }
+  
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;label&gt;User name: &lt;/label&gt;
+        &lt;Input
+          ref={comp => { this.InputComponent = comp; }}
+        /&gt;
+      &lt;/div&gt;
+    )
+  }
+}
     </pre>
-    <p class="caption">
-      What we got:
-    </p>
-    <ul class="caption">
-      <li>
-        Separated our data-fetching and rendering concerns.
-      </li>
-      <li>
-        Made our CommentList component reusable.
-      </li>
-      <li>
-        Given CommentList the ability to set PropTypes.
-      </li>
-    </ul>
   </div>
 </body>
 </html>

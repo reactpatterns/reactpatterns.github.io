@@ -1,9 +1,9 @@
 <html>
 <head>
-  <title>Async initialization in componentDidMount | React Patterns & Techniques</title>
+  <title>JSX spread attributes | React Patterns & Techniques</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="description" content="Async initialization in componentDidMount. You should avoid async initialization in componentWillMount()">
+  <meta name="description" content="JSX spread attributes. Spread Attributes is a JSX feature, it’s a syntactic for passing all of an object’s properties as JSX attributes.">
   <meta name="keywords" content="react-patterns, patterns, react, javascript, react-native, reactjs, component, components, front-end, frontend, front-end-development, frontend-web, frontend-webdevelopment, frontend-components, frontend-app, react-app, react-component, react-components, react-techniques, reactjs-patterns">
   <meta name="Code Facebook" content="bunlong.van@gmail.com">
   <link href="css/styles.css" rel="stylesheet">
@@ -27,28 +27,44 @@
         <li><a href="jsx-spread-attributes.html">JSX spread attributes</a></li>
       </ul>
     </ul>
-    <h3>Async initialization in componentDidMount()</h3>
+    <h3>JSX spread attributes</h3>
     <p>
-      You should avoid async initialization in <code>componentWillMount()</code>.
+      Spread Attributes is a JSX feature, it’s a syntactic for passing all of an object’s properties as JSX attributes.
     </p>
     <p>
-      <code>componentWillMount()</code> is called before render() that why setting state in this method will not trigger render() method.
-    </p>
-    <p>
-      You should make async calls for component initialization in <code>componentDidMount()</code> instead of <code>componentWillMount()</code>.
+      If you know all the properties that you want to place on a component ahead of time, it is easy to use JSX.
     </p>
     <pre class="screen">
-function componentDidMount() {
-  axios.get(`api/sms`)
-    .then((result) => {
-      const sms = result.data
-      console.log("COMPONENT WILL Mount messages : ", sms);
-      this.setState({
-        sms: [...sms.content]
-      })
-    })
-}
+var component = &lt;Component foo={x} bar={y} /&gt;;
+    </pre>
+    <p>
+      If you don't know which properties you want to set, you might be tempted to add them onto the object later.
+    </p>
+    <pre class="screen">
+var component = &lt;Component /&gt;;
+component.props.foo = x; // bad
+component.props.bar = y; // also bad
+    </pre>
+    <p>
+      Now you can use a new feature of JSX called spread attributes:
+    </p>
+    <pre class="screen">
+var props = {};
+props.foo = x;
+props.bar = y;
+var component = &lt;Component {...props} /&gt;;
+    </pre>
+    <p>
+      The properties of the object that you pass in are copied onto the component's props.
+    </p>
+    <p>
+      You can use this multiple times or combine it with other attributes. The specification order is important. Later attributes override previous ones.
+    </p>
+    <pre class="screen">
+var props = { foo: 'default' };
+var component = &lt;Component {...props} foo={'override'} /&gt;;
+console.log(component.props.foo); // 'override'
     </pre>
   </div>
 </body>
-</html> 
+</html>

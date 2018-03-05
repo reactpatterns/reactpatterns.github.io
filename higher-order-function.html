@@ -1,9 +1,9 @@
 <html>
 <head>
-  <title>Async initialization in componentDidMount | React Patterns & Techniques</title>
+  <title>Higher order function - Props proxy | React Patterns & Techniques</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="description" content="Async initialization in componentDidMount. You should avoid async initialization in componentWillMount()">
+  <meta name="description" content="Higher order function. Functions that operate on other functions, either by taking them as arguments or by returning them, are called higher-order functions.">
   <meta name="keywords" content="react-patterns, patterns, react, javascript, react-native, reactjs, component, components, front-end, frontend, front-end-development, frontend-web, frontend-webdevelopment, frontend-components, frontend-app, react-app, react-component, react-components, react-techniques, reactjs-patterns">
   <meta name="Code Facebook" content="bunlong.van@gmail.com">
   <link href="css/styles.css" rel="stylesheet">
@@ -27,28 +27,25 @@
         <li><a href="jsx-spread-attributes.html">JSX spread attributes</a></li>
       </ul>
     </ul>
-    <h3>Async initialization in componentDidMount()</h3>
+    <h3>Higher order function</h3>
     <p>
-      You should avoid async initialization in <code>componentWillMount()</code>.
+      Functions that operate on other functions, either by taking them as arguments or by returning them, are called higher-order functions. 
     </p>
     <p>
-      <code>componentWillMount()</code> is called before render() that why setting state in this method will not trigger render() method.
-    </p>
-    <p>
-      You should make async calls for component initialization in <code>componentDidMount()</code> instead of <code>componentWillMount()</code>.
+      Functions and they take other functions as arguments and operate on them. Also, the second candidate for Higher Order Functions are Closures which return any function. The below given function can be termed as a Higher Order Function.
     </p>
     <pre class="screen">
-function componentDidMount() {
-  axios.get(`api/sms`)
-    .then((result) => {
-      const sms = result.data
-      console.log("COMPONENT WILL Mount messages : ", sms);
-      this.setState({
-        sms: [...sms.content]
-      })
-    })
+// Getting a Specific Getter from Generic get
+function get(prop){
+  return function(obj){
+    return obj[prop];
+  }
 }
+
+let getName = get("name");
+let name = getName({"name": "Bunlong"});
+console.log(name);
     </pre>
   </div>
 </body>
-</html> 
+</html>
