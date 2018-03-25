@@ -1,0 +1,133 @@
+<html>
+<head>
+  <title>Render callback | React Patterns & Techniques</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Render callback">
+  <meta name="keywords" content="react-patterns, patterns, react, javascript, react-native, reactjs, component, components, front-end, frontend, front-end-development, frontend-web, frontend-webdevelopment, frontend-components, frontend-app, react-app, react-component, react-components, react-techniques, reactjs-patterns">
+  <meta name="Code Facebook" content="bunlong.van@gmail.com">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+   <div id="container">
+    <header>
+      <h1>
+        <a href="/">React Patterns & Techniques</a>
+      </h1>
+    </header>
+    <h3>Table of Contents</h3>
+    <ul>
+      <ul>
+        <li><a href="async-initialization-in-componentdidmount.html">Async initialization in componentDidMount()</a></li>
+        <li><a href="functional-setstate-(pass-a-function-to-setstate).html">Functional setState (Pass a function to setState)</a></li>
+        <li><a href="higher-order-function.html">Higher order function</a></li>
+        <li><a href="higher-order-component.html">Higher Order Component - Props proxy</a></li>
+        <li><a href="accessing-a-child-component.html">Accessing a child component</a></li>
+        <li><a href="jsx-spread-attributes.html">JSX spread attributes</a></li>
+        <li><a href="render-callback.html">Render callback</a></li>
+        <li><a href="container-component.html">Container component</a></li>
+      </ul>
+    </ul>
+    <h3>Render callback</h3>
+    <p>
+      Take a look at the example below. Notice that we create a function <code>foo</code> which takes a callback function as a parameter. When we call <code>foo</code>, it turns around and "calls back" to the passed-in function.
+    </p>
+    <pre class="screen">
+const foo = (hello) => {
+  return hello('foo');
+};
+
+foo((name) => {
+  return `hello from ${name}`;
+});
+
+// hello from foo
+    </pre>
+    <p>
+      As you can see, <code>foo</code> used the callback function to complete a portion of a string. In the React world, a render callback works the same way, but returning a portion of the rendered markup.
+    </p>
+    <p>
+      Here’s what we would like to use it:
+    </p>
+    <pre class="screen">
+const App = () => {
+  return (
+    &lt;div&gt;
+      &lt;FieldItem username='Bunlong'&gt;
+        {user => user === null ? &lt;Loading /&gt; : &lt;Profile info={user} /&gt;}
+      &lt;/FieldItem&gt;
+    &lt;/div&gt;
+  );
+};
+    </pre>
+    <p>
+      <code>FieldItem</code> will render either the <code>Loading</code> or the <code>Profile</code> component, depending on the existence of a <code>user</code> property. It also passes down a prop of its own, <code>username</code>, that one of these components can consume to make a call.
+    </p>
+    <p>
+      What is interesting here is that <code>&lt;FieldItem/&gt;</code> uses a function as a child. Any child component inside it is now free to consume this prop however it needs to, totally decoupled from the parent.
+    </p>
+    <p>
+      To make it work, the key is to treat <code>this.props.children</code> as a function. So in order for the <code>Profile</code> component to render whatever it needs to render, it needs to run the callback on the <code>children</code> function, passing it the <code>user</code> argument it expects. Here’s an example implementation of <code>Profile</code>:
+    </p>
+    <pre class="screen">
+class FieldItem extends React.Component {
+  state = { user: null }
+
+  componentDidMount() {
+    // We can make an ajax call here, for e.g.
+    setTimeout(() => this.setState({
+      user: `I have now fulfilled something for ${this.props.username}`
+    }), 1500);
+  }
+
+  render() {
+    // Render the children with a function using state as the argument
+    return this.props.children(this.state.user);
+  }
+}
+    </pre>
+    <p>
+      The key there is the child component rendering <code>return this.props.children(this.state.user)</code> with its own state. This means its up to the component to decide how to use the arguments it receives, and the parent component <code>FieldItem</code> doesn’t care: it only manages which component to render, in this case.
+    </p>
+    <p>
+      Looking at <code>Profile</code>, since <code>user</code> is <code>null</code> for 1000ms, the callback receives null as a value for user, thus rendering <code>&lt;Loading /&gt;</code> first. Once we have a <code>user</code>, the Profile component will then render. I really enjoy the simplicity and the cleanliness of this approach managing components.
+    </p>
+    <pre class="screen">
+// Loading component
+const Loading = () => &lt;p&gt;Loading...&lt;/p&gt;;
+
+// Profile component
+const Profile = (props) => &lt;p&gt;{props.info}&lt;/p&gt;;
+
+const App = () => {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;An application&lt;/h3&gt;
+      &lt;FieldItem username='magalhini'&gt;
+        { user => user === null ? &lt;Loading /&gt; : &lt;Profile info={user} /&gt; }
+      &lt;/FieldItem&gt;
+    &lt;/div&gt;
+  );
+};
+  
+class FieldItem extends React.Component {
+  state = { user: null }
+  
+  componentDidMount() {
+    // We can make an ajax call here, for e.g.
+    setTimeout(() => this.setState({
+      user: `I have now fulfilled something for ${this.props.username}`
+    }), 1500);
+  }
+  
+  render() {
+    // Render the children with a function using state as the argument
+    return this.props.children(this.state.user);
+  }
+}
+          
+ReactDOM.render(&lt;App/&gt;, document.getElementById('app'));
+    </pre>
+  </div>
+</body>
+</html>
