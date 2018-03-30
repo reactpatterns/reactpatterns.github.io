@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8" class="next-head next-head"/><title class="next-head">Function as child component | React patterns and techniques to use in development for React Developers</title><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" class="next-head"/><meta name="description" content="`${props.title}`" class="next-head"/><meta name="author" content="Bunlong" class="next-head"/><meta property="og:type" content="website" class="next-head"/><meta property="og:url" content="https://reactpatterns.github.io" class="next-head"/><meta property="og:title" content="`${props.title}`" class="next-head"/><meta property="og:image" content="https://reactpatterns.github.io/static/reactjs.png" class="next-head"/><meta property="og:description" content="`${props.title}`" class="next-head"/><link href="../static/styles.css" rel="stylesheet" class="next-head"/><link rel="preload" href="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/post.js" as="script"/><link rel="preload" href="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/_error.js" as="script"/><link rel="preload" href="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/main.js" as="script"/></head><body><div id="__next"><div data-reactroot=""><div id="container"><div id="about">[ <a href="https://github.com/codefacebook/react-patterns" target="_blank">Github</a> | <a href="https://twitter.com/reactjspatterns" target="_blank">Twitter</a> ]</div><header><h1><a href="/">React Patterns &amp; Techniques</a></h1></header><div><h3>Function as child component</h3><p>A Function as Child Component is a pattern that lets you pass a render function to a component as the children prop, so you can change what you can pass as children to a component.</p><p>When you use a Function as child component, instead of passing JSX markup, you assign children as a function.</p><pre><code>&lt;Foo&gt;
+  {(name) =&gt; &lt;div&gt;`hello from ${name}`&lt;/div&gt;}
+&lt;/Foo&gt;</code></pre><p>And the <code>Foo</code> component would look something like this.</p><pre><code>const Foo = ({ children }) =&gt; {
+  return children(&#x27;foo&#x27;);
+};</code></pre><p>Now let take a look at a advanced example of a Function as child component.</p><pre><code>class PageWidth extends React.Component {
+  state = { width: 0 };
+
+  componentDidMount() {
+    this.setState({ width: window.innerWidth });
+
+    window.addEventListener(
+      &#x27;resize&#x27;,
+      ({ target }) =&gt; {
+        this.setState({ width: target.innerWidth });
+      }
+    );
+  }
+
+  render() {
+    const { width } = this.state;
+
+    return this.props.children(width);
+  }
+}</code></pre><p>And then you could use it as.</p><pre><code>&lt;PageWidth&gt;
+  {width =&gt; &lt;div&gt;Page width is {width}&lt;/div&gt;}
+&lt;/PageWidth&gt;</code></pre><p>As you can see above, children is &quot;overloaded&quot; and passed to PageWidth as a function instead of being a ReactNodeList as nature intended. The PageWidth component’s render method calls this.props.children (passing it width), which returns rendered JSX.</p><p>The real power of render callbacks can be seen in this example. PageWidth will do all of the heavy lifting, while exactly what is rendered can change, depending on the render function that is passed.</p></div><footer>© 2018 Maintain by <a href="https://github.com/Bunlong" target="_blank">Bunlong</a> | Website built with <a href="https://reactjs.org" target="_blank">React</a> &amp; <a href="https://github.com/zeit/next.js" target="_blank">Next.js</a></footer></div></div></div><div id="__next-error"></div><script>
+          __NEXT_DATA__ = {"props":{"content":"### Function as child component\n\nA Function as Child Component is a pattern that lets you pass a render function to a component as the children prop, so you can change what you can pass as children to a component.\n\nWhen you use a Function as child component, instead of passing JSX markup, you assign children as a function.\n\n```\n\u003cFoo\u003e\n  {(name) =\u003e \u003cdiv\u003e`hello from ${name}`\u003c/div\u003e}\n\u003c/Foo\u003e\n```\n\nAnd the `Foo` component would look something like this.\n\n```\nconst Foo = ({ children }) =\u003e {\n  return children('foo');\n};\n```\n\nNow let take a look at a advanced example of a Function as child component.\n\n```\nclass PageWidth extends React.Component {\n  state = { width: 0 };\n\n  componentDidMount() {\n    this.setState({ width: window.innerWidth });\n\n    window.addEventListener(\n      'resize',\n      ({ target }) =\u003e {\n        this.setState({ width: target.innerWidth });\n      }\n    );\n  }\n\n  render() {\n    const { width } = this.state;\n\n    return this.props.children(width);\n  }\n}\n```\n\nAnd then you could use it as.\n\n```\n\u003cPageWidth\u003e\n  {width =\u003e \u003cdiv\u003ePage width is {width}\u003c/div\u003e}\n\u003c/PageWidth\u003e\n```\n\nAs you can see above, children is \"overloaded\" and passed to PageWidth as a function instead of being a ReactNodeList as nature intended. The PageWidth component’s render method calls this.props.children (passing it width), which returns rendered JSX.\n\nThe real power of render callbacks can be seen in this example. PageWidth will do all of the heavy lifting, while exactly what is rendered can change, depending on the render function that is passed.","title":"Function as child component"},"page":"/post","pathname":"/post","query":{"id":"Function-as-child-component"},"buildId":"d9b7326a-a1bc-4581-bac1-4519bc579def","assetPrefix":"/{reponame}","nextExport":true,"err":null,"chunks":[]}
+          module={}
+          __NEXT_LOADED_PAGES__ = []
+          __NEXT_LOADED_CHUNKS__ = []
+
+          __NEXT_REGISTER_PAGE = function (route, fn) {
+            __NEXT_LOADED_PAGES__.push({ route: route, fn: fn })
+          }
+
+          __NEXT_REGISTER_CHUNK = function (chunkName, fn) {
+            __NEXT_LOADED_CHUNKS__.push({ chunkName: chunkName, fn: fn })
+          }
+
+          false
+        </script><script async="" id="__NEXT_PAGE__/post" src="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/post.js"></script><script async="" id="__NEXT_PAGE__/_error" src="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/_error.js"></script><script src="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/main.js" async=""></script></body></html>

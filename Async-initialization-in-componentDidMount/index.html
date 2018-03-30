@@ -1,0 +1,25 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8" class="next-head next-head"/><title class="next-head">Async initialization in componentDidMount() | React patterns and techniques to use in development for React Developers</title><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" class="next-head"/><meta name="description" content="`${props.title}`" class="next-head"/><meta name="author" content="Bunlong" class="next-head"/><meta property="og:type" content="website" class="next-head"/><meta property="og:url" content="https://reactpatterns.github.io" class="next-head"/><meta property="og:title" content="`${props.title}`" class="next-head"/><meta property="og:image" content="https://reactpatterns.github.io/static/reactjs.png" class="next-head"/><meta property="og:description" content="`${props.title}`" class="next-head"/><link href="../static/styles.css" rel="stylesheet" class="next-head"/><link rel="preload" href="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/post.js" as="script"/><link rel="preload" href="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/_error.js" as="script"/><link rel="preload" href="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/main.js" as="script"/></head><body><div id="__next"><div data-reactroot=""><div id="container"><div id="about">[ <a href="https://github.com/codefacebook/react-patterns" target="_blank">Github</a> | <a href="https://twitter.com/reactjspatterns" target="_blank">Twitter</a> ]</div><header><h1><a href="/">React Patterns &amp; Techniques</a></h1></header><div><h3>Async initialization in componentDidMount()</h3><p>You should avoid async initialization in <code>componentWillMount()</code>, <code>componentWillMount()</code> is called before <code>render()</code> that why setting state in this method will not trigger <code>render()</code> method.</p><p>You should make async calls for component initialization in <code>componentDidMount()</code> instead of <code>componentWillMount()</code>.</p><pre><code>function componentDidMount() {
+  axios.get(`api/sms`)
+    .then((result) =&gt; {
+      const sms = result.data
+      console.log(&quot;COMPONENT WILL Mount messages : &quot;, sms);
+      this.setState({
+        sms: [...sms.content]
+      })
+    })
+}</code></pre></div><footer>© 2018 Maintain by <a href="https://github.com/Bunlong" target="_blank">Bunlong</a> | Website built with <a href="https://reactjs.org" target="_blank">React</a> &amp; <a href="https://github.com/zeit/next.js" target="_blank">Next.js</a></footer></div></div></div><div id="__next-error"></div><script>
+          __NEXT_DATA__ = {"props":{"content":"### Async initialization in componentDidMount()\n\nYou should avoid async initialization in `componentWillMount()`, `componentWillMount()` is called before `render()` that why setting state in this method will not trigger `render()` method.\n\nYou should make async calls for component initialization in `componentDidMount()` instead of `componentWillMount()`.\n\n```\nfunction componentDidMount() {\n  axios.get(`api/sms`)\n    .then((result) =\u003e {\n      const sms = result.data\n      console.log(\"COMPONENT WILL Mount messages : \", sms);\n      this.setState({\n        sms: [...sms.content]\n      })\n    })\n}\n```","title":"Async initialization in componentDidMount()"},"page":"/post","pathname":"/post","query":{"id":"Async-initialization-in-componentDidMount"},"buildId":"d9b7326a-a1bc-4581-bac1-4519bc579def","assetPrefix":"/{reponame}","nextExport":true,"err":null,"chunks":[]}
+          module={}
+          __NEXT_LOADED_PAGES__ = []
+          __NEXT_LOADED_CHUNKS__ = []
+
+          __NEXT_REGISTER_PAGE = function (route, fn) {
+            __NEXT_LOADED_PAGES__.push({ route: route, fn: fn })
+          }
+
+          __NEXT_REGISTER_CHUNK = function (chunkName, fn) {
+            __NEXT_LOADED_CHUNKS__.push({ chunkName: chunkName, fn: fn })
+          }
+
+          false
+        </script><script async="" id="__NEXT_PAGE__/post" src="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/post.js"></script><script async="" id="__NEXT_PAGE__/_error" src="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/page/_error.js"></script><script src="/{reponame}/_next/d9b7326a-a1bc-4581-bac1-4519bc579def/main.js" async=""></script></body></html>
