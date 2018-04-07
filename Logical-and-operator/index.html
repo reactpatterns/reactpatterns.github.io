@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8" class="next-head next-head"/><title class="next-head">Logical and operator | React patterns and techniques to use in development for React Developers</title><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" class="next-head"/><link rel="shortcut icon" href="../static/favicon.ico" class="next-head"/><meta name="description" content="Logical and operator" class="next-head"/><meta name="author" content="Bunlong" class="next-head"/><meta property="og:type" content="website" class="next-head"/><meta property="og:url" content="https://reactpatterns.github.io" class="next-head"/><meta property="og:title" content="Logical and operator" class="next-head"/><meta property="og:image" content="https://reactpatterns.github.io/static/reactjs.png" class="next-head"/><meta property="og:description" content="Logical and operator" class="next-head"/><meta name="twitter:card" content="summary" class="next-head"/><meta name="twitter:site" content="@reactjspatterns" class="next-head"/><meta name="twitter:title" content="Logical and operator" class="next-head"/><meta name="twitter:description" content="Logical and operator" class="next-head"/><meta name="twitter:image" content="https://reactpatterns.github.io/static/reactjs.png" class="next-head"/><link href="../static/styles.css" rel="stylesheet" class="next-head"/><link rel="preload" href="/{reponame}/_next/d9899a23-7ae2-425d-bf7f-a314e7abca75/page/post.js" as="script"/><link rel="preload" href="/{reponame}/_next/d9899a23-7ae2-425d-bf7f-a314e7abca75/page/_error.js" as="script"/><link rel="preload" href="/{reponame}/_next/d9899a23-7ae2-425d-bf7f-a314e7abca75/main.js" as="script"/></head><body><div id="__next"><div data-reactroot=""><div id="container"><div id="about">[ <a href="https://github.com/codefacebook/react-patterns" target="_blank">Github</a> | <a href="https://twitter.com/reactjspatterns" target="_blank">Twitter</a> ]</div><header><h2><a href="/">React Patterns &amp; Techniques</a></h2></header><div><h1>Logical &amp;&amp; operator</h1><p>It happens often that you want to render either an element or nothing. You could have a LoadingIndicator component that returns a loading text or nothing. You can do it in JSX with an if statement or ternary operation.</p><pre><code>function LoadingIndicator({ isLoading }) {
+  if (isLoading) {
+    return (
+      &lt;div&gt;
+        &lt;p&gt;Loading...&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  } else {
+    return null;
+  }
+}
+
+function LoadingIndicator({ isLoading }) {
+  return (
+    &lt;div&gt;
+      { isLoading
+          ? &lt;p&gt;Loading...&lt;/p&gt;
+          : null
+      }
+    &lt;/div&gt;
+  );
+}</code></pre><p>But there is an alternative way that omits the necessity to return null. The logical <code>&amp;&amp;</code> operator helps you to make conditions that would return null more concise.</p><p>How does it work? In JavaScript a <code>true &amp;&amp; &#x27;Hello World&#x27;</code> always evaluates to ‘Hello World’. A <code>false &amp;&amp; &#x27;Hello World&#x27;</code> always evaluates to false.</p><pre><code>const result = true &amp;&amp; &#x27;Hello World&#x27;;
+console.log(result);
+// Hello World
+
+const result = false &amp;&amp; &#x27;Hello World&#x27;;
+console.log(result);
+// false</code></pre><p>In React you can make use of that behaviour. If the condition is true, the expression after the logical &amp;&amp; operator will be the output. If the condition is false, React ignores and skips the expression.</p><pre><code>function LoadingIndicator({ isLoading }) {
+    return (
+        &lt;div&gt;
+            { isLoading &amp;&amp; &lt;p&gt;Loading...&lt;/p&gt; }
+        &lt;/div&gt;
+    );
+}</code></pre><p>That’s your way to go when you want to return an element or nothing. It makes it even more concise than a ternary operation when you would return null for a condition.</p></div><footer>© 2018 <a href="https://github.com/codefacebook" target="_blank">codefacebook</a>, Maintained by <a href="https://github.com/Bunlong" target="_blank">Bunlong</a> | Website built with <a href="https://reactjs.org" target="_blank">React</a> &amp; <a href="https://github.com/zeit/next.js" target="_blank">Next.js</a> | ReactPatterns on [ <a href="https://github.com/codefacebook/react-patterns" target="_blank">Github</a> | <a href="https://twitter.com/reactjspatterns" target="_blank">Twitter</a> ]</footer></div></div></div><div id="__next-error"></div><script>
+          __NEXT_DATA__ = {"props":{"content":"# Logical \u0026\u0026 operator\n\nIt happens often that you want to render either an element or nothing. You could have a LoadingIndicator component that returns a loading text or nothing. You can do it in JSX with an if statement or ternary operation.\n\n```\nfunction LoadingIndicator({ isLoading }) {\n  if (isLoading) {\n    return (\n      \u003cdiv\u003e\n        \u003cp\u003eLoading...\u003c/p\u003e\n      \u003c/div\u003e\n    );\n  } else {\n    return null;\n  }\n}\n\nfunction LoadingIndicator({ isLoading }) {\n  return (\n    \u003cdiv\u003e\n      { isLoading\n          ? \u003cp\u003eLoading...\u003c/p\u003e\n          : null\n      }\n    \u003c/div\u003e\n  );\n}\n```\n\nBut there is an alternative way that omits the necessity to return null. The logical `\u0026\u0026` operator helps you to make conditions that would return null more concise.\n\nHow does it work? In JavaScript a `true \u0026\u0026 'Hello World'` always evaluates to ‘Hello World’. A `false \u0026\u0026 'Hello World'` always evaluates to false.\n\n```\nconst result = true \u0026\u0026 'Hello World';\nconsole.log(result);\n// Hello World\n\nconst result = false \u0026\u0026 'Hello World';\nconsole.log(result);\n// false\n```\n\nIn React you can make use of that behaviour. If the condition is true, the expression after the logical \u0026\u0026 operator will be the output. If the condition is false, React ignores and skips the expression.\n\n```\nfunction LoadingIndicator({ isLoading }) {\n    return (\n        \u003cdiv\u003e\n            { isLoading \u0026\u0026 \u003cp\u003eLoading...\u003c/p\u003e }\n        \u003c/div\u003e\n    );\n}\n```\n\nThat’s your way to go when you want to return an element or nothing. It makes it even more concise than a ternary operation when you would return null for a condition.","title":"Logical and operator"},"page":"/post","pathname":"/post","query":{"id":"Logical-and-operator"},"buildId":"d9899a23-7ae2-425d-bf7f-a314e7abca75","assetPrefix":"/{reponame}","nextExport":true,"err":null,"chunks":[]}
+          module={}
+          __NEXT_LOADED_PAGES__ = []
+          __NEXT_LOADED_CHUNKS__ = []
+
+          __NEXT_REGISTER_PAGE = function (route, fn) {
+            __NEXT_LOADED_PAGES__.push({ route: route, fn: fn })
+          }
+
+          __NEXT_REGISTER_CHUNK = function (chunkName, fn) {
+            __NEXT_LOADED_CHUNKS__.push({ chunkName: chunkName, fn: fn })
+          }
+
+          false
+        </script><script async="" id="__NEXT_PAGE__/post" src="/{reponame}/_next/d9899a23-7ae2-425d-bf7f-a314e7abca75/page/post.js"></script><script async="" id="__NEXT_PAGE__/_error" src="/{reponame}/_next/d9899a23-7ae2-425d-bf7f-a314e7abca75/page/_error.js"></script><script src="/{reponame}/_next/d9899a23-7ae2-425d-bf7f-a314e7abca75/main.js" async=""></script></body></html>
