@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[49],{114:function(e){e.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"use-memo","name":"usememo","count":1,"permalink":"/blog/tags/use-memo"}')}}]);

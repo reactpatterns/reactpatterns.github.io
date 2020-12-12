@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{67:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Optimize Your Promise by Using Async/Await in React","permalink":"/blog/optimize-your-promise-by-using-async-await-in-react"},{"title":"When to useMemo and useCallback?","permalink":"/blog/usememo-and-usecallback"}]}')}}]);
